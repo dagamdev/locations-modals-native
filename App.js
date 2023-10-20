@@ -1,20 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react'
+import { StatusBar } from 'expo-status-bar'
+import { SafeAreaView } from 'react-native'
+import { NativeBaseProvider, Text, Pressable, Box } from 'native-base'
+import LocationsModal from './components/locations-modal'
+import FormModal from './components/form-modal'
 
-export default function App() {
+export default function App () {
+  const [showLocations, setShowLocations] = useState(false)
+  const [showForm, setShowForm] = useState(false)
+
+  const hadnleClickLocations = () => {
+    setShowLocations(true)
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+    <NativeBaseProvider>
+      <SafeAreaView>
+        <StatusBar style='auto' />
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+        <Box padding='4'>
+          <Pressable onPress={hadnleClickLocations} color='red.500'>
+            <Text color='red.500' fontSize='xl'>Ubicaciones</Text>
+          </Pressable>
+          <LocationsModal
+            showModal={showLocations} setShowModal={setShowLocations}
+            setShowForm={setShowForm}
+          />
+          <FormModal showModal={showForm} setShowModal={setShowForm} />
+        </Box>
+      </SafeAreaView>
+    </NativeBaseProvider>
+  )
+}
